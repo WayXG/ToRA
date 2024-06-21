@@ -124,7 +124,7 @@ def main(args):
         default_args = {
             "use_beam_search": False,
             "n": 1,
-            "temperature": 1.0,
+            "temperature": args.temperature,
             "max_tokens": 1024,
             "seed": args.seed,
             "top_p": 1.0,
