@@ -221,7 +221,7 @@ print(json.dumps(to_return))
                     if match:
                         batch_results.append(('', match.group(1)))
                     else:
-                        batch_results.append(('', 'there exists some error in your code'))
+                        batch_results.append(('', 'There exists some error in your code. Please rewrite the code and solve the problem.'))
                     print(batch_results[-1])
                     continue
             else:
@@ -232,7 +232,7 @@ print(json.dumps(to_return))
             try:
                 dict_data['error_message']
             except:
-                batch_results.append(('', 'There exists some error in the code'))
+                batch_results.append(('', 'There exists some error in your code. Please rewrite the code and solve the problem.'))
                 print(dict_data)
                 continue
             if dict_data['error_message']:
