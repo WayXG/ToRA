@@ -1,5 +1,6 @@
 import os
 import io
+import re
 import regex
 import pickle
 import traceback
@@ -144,6 +145,7 @@ class PythonExecutor:
         except:
             #result = ''
             report = traceback.format_exc().split('\n')[-2]
+            #result = {{"result": "", "error_message": report}} 
             result = json.dumps({"result":"", "error_message": report})
         return result, report
 
@@ -209,8 +211,30 @@ print(json.dumps(to_return))
         my_results = self.old_batch_apply(all_processed_codes)
         batch_results = []
         for prediction in my_results:
-            dict_data = json.loads(prediction[0])
+            if prediction[0]:
+                try:
+                    dict_data = json.loads(prediction[0])
+                except:
+                    #batch_results.append(('', prediction[1]))
+                    #print("json error!!!", prediction)
+                    match = re.search(r'"error_message":\s*"([^"]*)"', prediction[0])
+                    if match:
+                        batch_results.append(('', match.group(1)))
+                    else:
+                        batch_results.append(('', 'there exists some error in your code'))
+                    print(batch_results[-1])
+                    continue
+            else:
+                batch_results.append(('', prediction[1]))
+                continue
 
+            #dict_data = json.loads(prediction[0])
+            try:
+                dict_data['error_message']
+            except:
+                batch_results.append(('', 'There exists some error in the code'))
+                print(dict_data)
+                continue
             if dict_data['error_message']:
                 batch_results.append(('', dict_data['error_message']))
             else:
@@ -219,7 +243,7 @@ print(json.dumps(to_return))
 
         
     @staticmethod
-    def truncate(s, max_length=400):
+    def truncate(s, max_length=800):
         half = max_length // 2
         if len(s) > max_length:
             s = s[:half] + "..." + s[-half:]
