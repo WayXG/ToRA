@@ -34,7 +34,7 @@ python -um infer.infer_api_gemma \
 --prompt_type ${PROMPT_TYPE} \
 --num_test_sample ${NUM_TEST_SAMPLE} \
 --seed 1 \
---temperature 1 \
+--temperature 0 \
 --n_sampling 1 \
 --top_p 1 \
 --start 0 \
