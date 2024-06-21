@@ -200,7 +200,7 @@ def extract_answer(pred_str):
     pred = strip_string(pred)
     return pred
 
-
+'''
 def extract_program(result: str, last_only=True):
     """
     extract the program after "```python", and before "```"
@@ -219,14 +219,15 @@ def extract_program(result: str, last_only=True):
         elif start:
             program += line + "\n"
     return program
+'''
 
-
-def extract_program_all(result: str, last_only=False):
+def extract_program(result: str, last_only=False):
     """
     extract the program after "```python", and before "```"
     """
     all_program = []
     start = False
+    program = ""
     for line in result.split("\n"):
         if line.startswith("```python"):
             program = ""
